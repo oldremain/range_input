@@ -72,9 +72,9 @@ input[type="range"] {
   cursor: pointer;
   background: linear-gradient(
     90deg,
-    rgba(231, 148, 31, 1) 0%,
-    rgba(251, 212, 156, 1) 50%,
-    rgba(231, 148, 31, 1) 100%
+    rgba(255, 216, 110, 1) 0%,
+    rgba(223, 220, 214, 1) 50%,
+    rgba(255, 216, 110, 1) 100%
   );
 }
 
