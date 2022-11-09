@@ -2,7 +2,6 @@ const slider = document.querySelector(".slider");
 const slider_min_value = parseFloat(slider.min);
 const slider_max_value = parseFloat(slider.max);
 const slider_step = parseFloat(slider.step);
-console.log(slider_step);
 
 const slider_range = Math.abs(slider_min_value) + Math.abs(slider_max_value);
 
@@ -55,12 +54,16 @@ const RGB_TO_GREEN_STEP_BLUE = parseFloat(
 
 // console.log(RGB_TO_RED_STEP_RED, RGB_TO_RED_STEP_GREEN, RGB_TO_RED_STEP_BLUE);
 
-let currenValue = 0;
+let currentValue = 0;
 
-slider.addEventListener("input", function (e) {
+function onChangeColor(e) {
   const targetValue = parseFloat(e.target.value);
 
   if (targetValue < 0) {
+    const multipleValue = Math.abs(
+      ((Math.abs(currentValue) - Math.abs(targetValue)) / slider_step).toFixed()
+    );
+
     min_value.textContent = `${(
       Math.abs(slider_min_value) - Math.abs(targetValue)
     ).toFixed(1)} %`;
@@ -77,41 +80,45 @@ slider.addEventListener("input", function (e) {
     const targetValueByModule = Math.abs(targetValue);
 
     RGB_TO_RED.red =
-      targetValueByModule > currenValue
-        ? RGB_TO_RED.red + RGB_TO_RED_STEP_RED
-        : RGB_TO_RED.red - RGB_TO_RED_STEP_RED;
+      targetValueByModule > currentValue
+        ? RGB_TO_RED.red + RGB_TO_RED_STEP_RED * multipleValue
+        : RGB_TO_RED.red - RGB_TO_RED_STEP_RED * multipleValue;
 
     RGB_TO_RED.green =
-      targetValueByModule > currenValue
-        ? RGB_TO_RED.green - RGB_TO_RED_STEP_GREEN
-        : RGB_TO_RED.green + RGB_TO_RED_STEP_GREEN;
+      targetValueByModule > currentValue
+        ? RGB_TO_RED.green - RGB_TO_RED_STEP_GREEN * multipleValue
+        : RGB_TO_RED.green + RGB_TO_RED_STEP_GREEN * multipleValue;
 
     RGB_TO_RED.blue =
-      targetValueByModule > currenValue
-        ? RGB_TO_RED.blue - RGB_TO_RED_STEP_BLUE
-        : RGB_TO_RED.blue + RGB_TO_RED_STEP_BLUE;
+      targetValueByModule > currentValue
+        ? RGB_TO_RED.blue - RGB_TO_RED_STEP_BLUE * multipleValue
+        : RGB_TO_RED.blue + RGB_TO_RED_STEP_BLUE * multipleValue;
 
     RGB_TO_GREEN.red =
-      targetValueByModule > currenValue
-        ? RGB_TO_GREEN.red - RGB_TO_GREEN_STEP_RED
-        : RGB_TO_GREEN.red + RGB_TO_GREEN_STEP_RED;
+      targetValueByModule > currentValue
+        ? RGB_TO_GREEN.red - RGB_TO_GREEN_STEP_RED * multipleValue
+        : RGB_TO_GREEN.red + RGB_TO_GREEN_STEP_RED * multipleValue;
 
     RGB_TO_GREEN.green =
-      targetValueByModule > currenValue
-        ? RGB_TO_GREEN.green + RGB_TO_GREEN_STEP_GREEN
-        : RGB_TO_GREEN.green - RGB_TO_GREEN_STEP_GREEN;
+      targetValueByModule > currentValue
+        ? RGB_TO_GREEN.green + RGB_TO_GREEN_STEP_GREEN * multipleValue
+        : RGB_TO_GREEN.green - RGB_TO_GREEN_STEP_GREEN * multipleValue;
 
     RGB_TO_GREEN.blue =
-      targetValueByModule > currenValue
-        ? RGB_TO_GREEN.blue - RGB_TO_GREEN_STEP_BLUE
-        : RGB_TO_GREEN.blue + RGB_TO_GREEN_STEP_BLUE;
+      targetValueByModule > currentValue
+        ? RGB_TO_GREEN.blue - RGB_TO_GREEN_STEP_BLUE * multipleValue
+        : RGB_TO_GREEN.blue + RGB_TO_GREEN_STEP_BLUE * multipleValue;
 
     this.style.background = `linear-gradient(90deg,  rgba(${RGB_TO_GREEN.red}, ${RGB_TO_GREEN.green}, ${RGB_TO_GREEN.blue}, 1)  0%, rgba(223,220,214,1) ${colorTransitionPercent}%, rgba(${RGB_TO_RED.red}, ${RGB_TO_RED.green}, ${RGB_TO_RED.blue},1) 100%)`;
 
-    currenValue = targetValueByModule;
+    currentValue = targetValueByModule;
   }
 
   if (targetValue >= 0) {
+    const multipleValue = Math.abs(
+      ((Math.abs(targetValue) - Math.abs(currentValue)) / slider_step).toFixed()
+    );
+
     max_value.textContent = `${(slider_max_value - targetValue).toFixed(1)} %`;
 
     min_value.textContent = `${(
@@ -134,7 +141,7 @@ slider.addEventListener("input", function (e) {
       RGB_TO_GREEN.green = BASE_RGB.green;
       RGB_TO_GREEN.blue = BASE_RGB.blue;
 
-      currenValue = 0;
+      currentValue = 0;
 
       return;
     }
@@ -142,37 +149,160 @@ slider.addEventListener("input", function (e) {
     const targetValueByModule = Math.abs(targetValue);
 
     RGB_TO_RED.red =
-      targetValueByModule > currenValue
-        ? RGB_TO_RED.red + RGB_TO_RED_STEP_RED
-        : RGB_TO_RED.red - RGB_TO_RED_STEP_RED;
+      targetValueByModule > currentValue
+        ? RGB_TO_RED.red + RGB_TO_RED_STEP_RED * multipleValue
+        : RGB_TO_RED.red - RGB_TO_RED_STEP_RED * multipleValue;
 
     RGB_TO_RED.green =
-      targetValueByModule > currenValue
-        ? RGB_TO_RED.green - RGB_TO_RED_STEP_GREEN
-        : RGB_TO_RED.green + RGB_TO_RED_STEP_GREEN;
+      targetValueByModule > currentValue
+        ? RGB_TO_RED.green - RGB_TO_RED_STEP_GREEN * multipleValue
+        : RGB_TO_RED.green + RGB_TO_RED_STEP_GREEN * multipleValue;
 
     RGB_TO_RED.blue =
-      targetValueByModule > currenValue
-        ? RGB_TO_RED.blue - RGB_TO_RED_STEP_BLUE
-        : RGB_TO_RED.blue + RGB_TO_RED_STEP_BLUE;
+      targetValueByModule > currentValue
+        ? RGB_TO_RED.blue - RGB_TO_RED_STEP_BLUE * multipleValue
+        : RGB_TO_RED.blue + RGB_TO_RED_STEP_BLUE * multipleValue;
 
     RGB_TO_GREEN.red =
-      targetValueByModule > currenValue
-        ? RGB_TO_GREEN.red - RGB_TO_GREEN_STEP_RED
-        : RGB_TO_GREEN.red + RGB_TO_GREEN_STEP_RED;
+      targetValueByModule > currentValue
+        ? RGB_TO_GREEN.red - RGB_TO_GREEN_STEP_RED * multipleValue
+        : RGB_TO_GREEN.red + RGB_TO_GREEN_STEP_RED * multipleValue;
 
     RGB_TO_GREEN.green =
-      targetValueByModule > currenValue
-        ? RGB_TO_GREEN.green + RGB_TO_GREEN_STEP_GREEN
-        : RGB_TO_GREEN.green - RGB_TO_GREEN_STEP_GREEN;
+      targetValueByModule > currentValue
+        ? RGB_TO_GREEN.green + RGB_TO_GREEN_STEP_GREEN * multipleValue
+        : RGB_TO_GREEN.green - RGB_TO_GREEN_STEP_GREEN * multipleValue;
 
     RGB_TO_GREEN.blue =
-      targetValueByModule > currenValue
-        ? RGB_TO_GREEN.blue - RGB_TO_GREEN_STEP_BLUE
-        : RGB_TO_GREEN.blue + RGB_TO_GREEN_STEP_BLUE;
+      targetValueByModule > currentValue
+        ? RGB_TO_GREEN.blue - RGB_TO_GREEN_STEP_BLUE * multipleValue
+        : RGB_TO_GREEN.blue + RGB_TO_GREEN_STEP_BLUE * multipleValue;
 
     this.style.background = `linear-gradient(90deg,  rgba(${RGB_TO_RED.red}, ${RGB_TO_RED.green}, ${RGB_TO_RED.blue}, 1)  0%, rgba(223,220,214,1) ${colorTransitionPercent}%, rgba(${RGB_TO_GREEN.red}, ${RGB_TO_GREEN.green}, ${RGB_TO_GREEN.blue},1) 100%)`;
 
-    currenValue = targetValueByModule;
+    currentValue = targetValueByModule;
   }
-});
+}
+
+// function onInputColor(e) {
+//   const targetValue = parseFloat(e.target.value);
+//   console.log("input");
+
+//   if (targetValue < 0) {
+//     min_value.textContent = `${(
+//       Math.abs(slider_min_value) - Math.abs(targetValue)
+//     ).toFixed(1)} %`;
+
+//     max_value.textContent = `${(
+//       slider_max_value + Math.abs(targetValue)
+//     ).toFixed(1)} %`;
+
+//     const colorTransitionPercent = (
+//       (parseFloat(min_value.textContent) / slider_range) *
+//       100
+//     ).toFixed(0);
+
+//     const targetValueByModule = Math.abs(targetValue);
+
+//     RGB_TO_RED.red =
+//       targetValueByModule > currentValue
+//         ? RGB_TO_RED.red + RGB_TO_RED_STEP_RED
+//         : RGB_TO_RED.red - RGB_TO_RED_STEP_RED;
+
+//     RGB_TO_RED.green =
+//       targetValueByModule > currentValue
+//         ? RGB_TO_RED.green - RGB_TO_RED_STEP_GREEN
+//         : RGB_TO_RED.green + RGB_TO_RED_STEP_GREEN;
+
+//     RGB_TO_RED.blue =
+//       targetValueByModule > currentValue
+//         ? RGB_TO_RED.blue - RGB_TO_RED_STEP_BLUE
+//         : RGB_TO_RED.blue + RGB_TO_RED_STEP_BLUE;
+
+//     RGB_TO_GREEN.red =
+//       targetValueByModule > currentValue
+//         ? RGB_TO_GREEN.red - RGB_TO_GREEN_STEP_RED
+//         : RGB_TO_GREEN.red + RGB_TO_GREEN_STEP_RED;
+
+//     RGB_TO_GREEN.green =
+//       targetValueByModule > currentValue
+//         ? RGB_TO_GREEN.green + RGB_TO_GREEN_STEP_GREEN
+//         : RGB_TO_GREEN.green - RGB_TO_GREEN_STEP_GREEN;
+
+//     RGB_TO_GREEN.blue =
+//       targetValueByModule > currentValue
+//         ? RGB_TO_GREEN.blue - RGB_TO_GREEN_STEP_BLUE
+//         : RGB_TO_GREEN.blue + RGB_TO_GREEN_STEP_BLUE;
+
+//     this.style.background = `linear-gradient(90deg,  rgba(${RGB_TO_GREEN.red}, ${RGB_TO_GREEN.green}, ${RGB_TO_GREEN.blue}, 1)  0%, rgba(223,220,214,1) ${colorTransitionPercent}%, rgba(${RGB_TO_RED.red}, ${RGB_TO_RED.green}, ${RGB_TO_RED.blue},1) 100%)`;
+
+//     currentValue = targetValueByModule;
+//   }
+
+//   if (targetValue >= 0) {
+//     max_value.textContent = `${(slider_max_value - targetValue).toFixed(1)} %`;
+
+//     min_value.textContent = `${(
+//       Math.abs(slider_min_value) + targetValue
+//     ).toFixed(1)} %`;
+
+//     const colorTransitionPercent = (
+//       (parseFloat(min_value.textContent) / slider_range) *
+//       100
+//     ).toFixed(0);
+
+//     if (targetValue === 0) {
+//       this.style.background =
+//         "linear-gradient(90deg, rgba(255, 216, 110, 1) 0%,rgba(223,220,214, 1) 50%,rgba(255, 216, 110, 1) 100%)";
+//       RGB_TO_RED.red = BASE_RGB.red;
+//       RGB_TO_RED.green = BASE_RGB.green;
+//       RGB_TO_RED.blue = BASE_RGB.blue;
+
+//       RGB_TO_GREEN.red = BASE_RGB.red;
+//       RGB_TO_GREEN.green = BASE_RGB.green;
+//       RGB_TO_GREEN.blue = BASE_RGB.blue;
+
+//       currentValue = 0;
+
+//       return;
+//     }
+
+//     const targetValueByModule = Math.abs(targetValue);
+
+//     RGB_TO_RED.red =
+//       targetValueByModule > currentValue
+//         ? RGB_TO_RED.red + RGB_TO_RED_STEP_RED
+//         : RGB_TO_RED.red - RGB_TO_RED_STEP_RED;
+
+//     RGB_TO_RED.green =
+//       targetValueByModule > currentValue
+//         ? RGB_TO_RED.green - RGB_TO_RED_STEP_GREEN
+//         : RGB_TO_RED.green + RGB_TO_RED_STEP_GREEN;
+
+//     RGB_TO_RED.blue =
+//       targetValueByModule > currentValue
+//         ? RGB_TO_RED.blue - RGB_TO_RED_STEP_BLUE
+//         : RGB_TO_RED.blue + RGB_TO_RED_STEP_BLUE;
+
+//     RGB_TO_GREEN.red =
+//       targetValueByModule > currentValue
+//         ? RGB_TO_GREEN.red - RGB_TO_GREEN_STEP_RED
+//         : RGB_TO_GREEN.red + RGB_TO_GREEN_STEP_RED;
+
+//     RGB_TO_GREEN.green =
+//       targetValueByModule > currentValue
+//         ? RGB_TO_GREEN.green + RGB_TO_GREEN_STEP_GREEN
+//         : RGB_TO_GREEN.green - RGB_TO_GREEN_STEP_GREEN;
+
+//     RGB_TO_GREEN.blue =
+//       targetValueByModule > currentValue
+//         ? RGB_TO_GREEN.blue - RGB_TO_GREEN_STEP_BLUE
+//         : RGB_TO_GREEN.blue + RGB_TO_GREEN_STEP_BLUE;
+
+//     this.style.background = `linear-gradient(90deg,  rgba(${RGB_TO_RED.red}, ${RGB_TO_RED.green}, ${RGB_TO_RED.blue}, 1)  0%, rgba(223,220,214,1) ${colorTransitionPercent}%, rgba(${RGB_TO_GREEN.red}, ${RGB_TO_GREEN.green}, ${RGB_TO_GREEN.blue},1) 100%)`;
+
+//     currentValue = targetValueByModule;
+//   }
+// }
+
+slider.addEventListener("input", onChangeColor);
