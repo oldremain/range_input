@@ -17,6 +17,7 @@ body {
 
 .content {
   max-width: 1000px;
+  padding: 0 15px;
   height: 100%;
   margin: auto;
   display: flex;
