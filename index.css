@@ -79,7 +79,6 @@ input[type="range"] {
 }
 
 /*Chrome thumb*/
-
 input[type="range"]::-webkit-slider-thumb {
   position: relative;
   -webkit-appearance: none;
