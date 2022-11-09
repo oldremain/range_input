@@ -1,9 +1,13 @@
 const slider = document.querySelector(".slider");
+const slider_min_value = parseFloat(slider.min);
+const slider_max_value = parseFloat(slider.max);
+const slider_range = Math.abs(slider_min_value) + Math.abs(slider_max_value);
+
 const min_value = document.querySelector(".value--min");
 const max_value = document.querySelector(".value--max");
 
-min_value.textContent = Math.abs(slider.min);
-max_value.textContent = slider.max;
+min_value.textContent = `${Math.abs(slider_min_value)} %`;
+max_value.textContent = `${slider_max_value} %`;
 
 const RGB_TO_RED = {
   red: 231,
@@ -17,90 +21,124 @@ const RGB_TO_GREEN = {
   blue: 31,
 };
 
-let redA = 231;
-let greenA = 148;
-let blueA = 31;
-
-let redB = 231;
-let greenB = 148;
-let blueB = 31;
-
 let currenValue = 0;
 
 slider.addEventListener("input", function (e) {
-  const targetValue = parseFloat();
-  if (+e.target.value < 0) {
-    this.style.opacity = 1;
+  const targetValue = parseFloat(e.target.value);
 
-    min_value.textContent =
-      ((Math.abs(slider.min) - Math.abs(e.target.value)).toFixed(2) * 100) /
-      100;
+  if (targetValue < 0) {
+    min_value.textContent = `${(
+      Math.abs(slider_min_value) - Math.abs(targetValue)
+    ).toFixed(1)} %`;
 
-    max_value.textContent =
-      ((+slider.max + Math.abs(e.target.value)).toFixed(2) * 100) / 100;
+    max_value.textContent = `${(
+      slider_max_value + Math.abs(targetValue)
+    ).toFixed(1)} %`;
 
-    let beforeValue = "";
+    const colorTransitionPercent = (
+      (parseFloat(min_value.textContent) / slider_range) *
+      100
+    ).toFixed(0);
 
-    beforeValue = ((+min_value.textContent / 6) * 100).toFixed(0);
+    const targetValueByModule = Math.abs(targetValue);
 
-    const targetValue = Math.abs(e.target.value);
+    RGB_TO_RED.red =
+      targetValueByModule > currenValue
+        ? RGB_TO_RED.red + 0.8
+        : RGB_TO_RED.red - 0.8;
 
-    redB = targetValue > currenValue ? redB + 0.8 : redB - 0.8;
-    greenB = targetValue > currenValue ? greenB - 4.93 : greenB + 4.93;
-    blueB = targetValue > currenValue ? blueB - 1.03 : blueB + 1.03;
+    RGB_TO_RED.green =
+      targetValueByModule > currenValue
+        ? RGB_TO_RED.green - 4.93
+        : RGB_TO_RED.green + 4.93;
 
-    redA = targetValue > currenValue ? redA - 7.7 : redA + 7.7;
-    greenA = targetValue > currenValue ? greenA + 3.56 : greenA - 3.56;
-    blueA = targetValue > currenValue ? blueA - 1.03 : blueA + 1.03;
+    RGB_TO_RED.blue =
+      targetValueByModule > currenValue
+        ? RGB_TO_RED.blue - 1.03
+        : RGB_TO_RED.blue + 1.03;
 
-    currenValue = targetValue;
+    RGB_TO_GREEN.red =
+      targetValueByModule > currenValue
+        ? RGB_TO_GREEN.red - 7.7
+        : RGB_TO_GREEN.red + 7.7;
 
-    // this.style.background = `linear-gradient(90deg, rgba(0,255,0,1) 0%, rgba(223,220,214,1) ${beforeValue}%, rgba(255,0,0,1) 100%)`;
+    RGB_TO_GREEN.green =
+      targetValueByModule > currenValue
+        ? RGB_TO_GREEN.green + 3.56
+        : RGB_TO_GREEN.green - 3.56;
 
-    this.style.background = `linear-gradient(90deg,  rgba(${redA}, ${greenA}, ${blueA}, 1)  0%, rgba(223,220,214,1) ${beforeValue}%, rgba(${redB}, ${greenB}, ${blueB},1) 100%)`;
+    RGB_TO_GREEN.blue =
+      targetValueByModule > currenValue
+        ? RGB_TO_GREEN.blue - 1.03
+        : RGB_TO_GREEN.blue + 1.03;
+
+    this.style.background = `linear-gradient(90deg,  rgba(${RGB_TO_GREEN.red}, ${RGB_TO_GREEN.green}, ${RGB_TO_GREEN.blue}, 1)  0%, rgba(223,220,214,1) ${colorTransitionPercent}%, rgba(${RGB_TO_RED.red}, ${RGB_TO_RED.green}, ${RGB_TO_RED.blue},1) 100%)`;
+
+    currenValue = targetValueByModule;
   }
 
-  if (+e.target.value >= 0) {
-    this.style.opacity = 1;
-    setTimeout(() => (this.style.opacity = 1), 1000);
+  if (targetValue >= 0) {
+    max_value.textContent = `${(slider_max_value - targetValue).toFixed(1)} %`;
 
-    max_value.textContent =
-      ((slider.max - e.target.value).toFixed(2) * 100) / 100;
+    min_value.textContent = `${(
+      Math.abs(slider_min_value) + targetValue
+    ).toFixed(1)} %`;
 
-    min_value.textContent =
-      ((Math.abs(slider.min) + +e.target.value).toFixed(2) * 100) / 100;
+    const colorTransitionPercent = (
+      (parseFloat(min_value.textContent) / slider_range) *
+      100
+    ).toFixed(0);
 
-    let afterValue = "";
-
-    afterValue = ((+min_value.textContent / 6) * 100).toFixed(0);
-
-    if (+e.target.value === 0) {
+    if (targetValue === 0) {
       this.style.background =
         "linear-gradient(90deg, rgba(231, 148, 31, 1) 0%,rgba(223,220,214, 1) 50%,rgba(231, 148, 31, 1) 100%)";
-      redA = 231;
-      greenA = 148;
-      blueA = 31;
+      RGB_TO_RED.red = 231;
+      RGB_TO_RED.green = 148;
+      RGB_TO_RED.blue = 31;
 
-      redB = 231;
-      greenB = 148;
-      blueB = 31;
+      RGB_TO_GREEN.red = 231;
+      RGB_TO_GREEN.green = 148;
+      RGB_TO_GREEN.blue = 31;
 
       currenValue = 0;
+
       return;
     }
 
-    const targetValue = Math.abs(e.target.value);
+    const targetValueByModule = Math.abs(targetValue);
 
-    redB = targetValue > currenValue ? redB + 0.8 : redB - 0.8;
-    greenB = targetValue > currenValue ? greenB - 4.93 : greenB + 4.93;
-    blueB = targetValue > currenValue ? blueB - 1.03 : blueB + 1.03;
+    RGB_TO_RED.red =
+      targetValueByModule > currenValue
+        ? RGB_TO_RED.red + 0.8
+        : RGB_TO_RED.red - 0.8;
 
-    redA = targetValue > currenValue ? redA - 7.7 : redA + 7.7;
-    greenA = targetValue > currenValue ? greenA + 3.56 : greenA - 3.56;
-    blueA = targetValue > currenValue ? blueA - 1.03 : blueA + 1.03;
+    RGB_TO_RED.green =
+      targetValueByModule > currenValue
+        ? RGB_TO_RED.green - 4.93
+        : RGB_TO_RED.green + 4.93;
 
-    this.style.background = `linear-gradient(90deg,  rgba(${redB}, ${greenB}, ${blueB}, 1)  0%, rgba(223,220,214,1) ${afterValue}%, rgba(${redA}, ${greenA}, ${blueA},1) 100%)`;
+    RGB_TO_RED.blue =
+      targetValueByModule > currenValue
+        ? RGB_TO_RED.blue - 1.03
+        : RGB_TO_RED.blue + 1.03;
 
-    currenValue = targetValue;
+    RGB_TO_GREEN.red =
+      targetValueByModule > currenValue
+        ? RGB_TO_GREEN.red - 7.7
+        : RGB_TO_GREEN.red + 7.7;
+
+    RGB_TO_GREEN.green =
+      targetValueByModule > currenValue
+        ? RGB_TO_GREEN.green + 3.56
+        : RGB_TO_GREEN.green - 3.56;
+
+    RGB_TO_GREEN.blue =
+      targetValueByModule > currenValue
+        ? RGB_TO_GREEN.blue - 1.03
+        : RGB_TO_GREEN.blue + 1.03;
+
+    this.style.background = `linear-gradient(90deg,  rgba(${RGB_TO_RED.red}, ${RGB_TO_RED.green}, ${RGB_TO_RED.blue}, 1)  0%, rgba(223,220,214,1) ${colorTransitionPercent}%, rgba(${RGB_TO_GREEN.red}, ${RGB_TO_GREEN.green}, ${RGB_TO_GREEN.blue},1) 100%)`;
+
+    currenValue = targetValueByModule;
   }
 });

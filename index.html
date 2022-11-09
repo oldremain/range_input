@@ -4,27 +4,43 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Static Template</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./index.css" />
     <script src="./index.js" defer></script>
+    <title>Range Input</title>
   </head>
   <body>
-    <div class="range-container">
-      <div class="values-container">
-        <span class="value--min"></span>
-        <span class="value--max"></span>
+    <div class="wrapper">
+      <div class="content">
+        <div class="title">Установите комиссию</div>
+        <div class="description">
+          Натсройки распределения комиссии взяты из вашего магазина. Вы можете
+          настроить их вручную
+        </div>
+        <div class="range-container">
+          <div class="range-labels">
+            <span class="label">Клиент</span>
+            <span class="label">Мерчант</span>
+          </div>
+          <input
+            class="slider"
+            type="range"
+            min="-3"
+            max="3"
+            value="0"
+            step="0.1"
+          />
+          <div class="range-values">
+            <span class="value value--min"></span>
+            <span class="value value--max"></span>
+          </div>
+        </div>
       </div>
-      <input
-        class="slider"
-        type="range"
-        min="-3"
-        max="3"
-        value="0"
-        step="0.1"
-      />
     </div>
-    <h1>
-      This is a static template, there is no bundler or bundling involved!
-    </h1>
   </body>
 </html>
