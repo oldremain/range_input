@@ -30,24 +30,27 @@ const RGB_TO_GREEN = {
   blue: 31,
 };
 
+const slider_mid_value =
+  (Math.abs(slider_max_value) + Math.abs(slider_min_value)) / 2;
+
 const RGB_TO_RED_STEP_RED = parseFloat(
-  (Math.abs(BASE_RGB.red - 255) / (slider_max_value / slider_step)).toFixed(2)
+  (Math.abs(BASE_RGB.red - 255) / (slider_mid_value / slider_step)).toFixed(2)
 );
 const RGB_TO_RED_STEP_GREEN = parseFloat(
-  (BASE_RGB.green / (slider_max_value / slider_step)).toFixed(2)
+  (BASE_RGB.green / (slider_mid_value / slider_step)).toFixed(2)
 );
 const RGB_TO_RED_STEP_BLUE = parseFloat(
-  (BASE_RGB.blue - 255 / (slider_max_value / slider_step)).toFixed(2)
+  (BASE_RGB.blue - 255 / (slider_mid_value / slider_step)).toFixed(2)
 );
 
 const RGB_TO_GREEN_STEP_RED = parseFloat(
-  (BASE_RGB.red / (slider_max_value / slider_step)).toFixed(2)
+  (BASE_RGB.red / (slider_mid_value / slider_step)).toFixed(2)
 );
 const RGB_TO_GREEN_STEP_GREEN = parseFloat(
-  (Math.abs(BASE_RGB.green - 255) / (slider_max_value / slider_step)).toFixed(2)
+  (Math.abs(BASE_RGB.green - 255) / (slider_mid_value / slider_step)).toFixed(2)
 );
 const RGB_TO_GREEN_STEP_BLUE = parseFloat(
-  (BASE_RGB.blue / (slider_max_value / slider_step)).toFixed(2)
+  (BASE_RGB.blue / (slider_mid_value / slider_step)).toFixed(2)
 );
 
 // console.log(RGB_TO_RED_STEP_RED, RGB_TO_RED_STEP_GREEN, RGB_TO_RED_STEP_BLUE);
